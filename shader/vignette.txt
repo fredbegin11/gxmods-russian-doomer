@@ -1,0 +1,30 @@
+const float VIGNETTE_INTENSITY = 0.25;
+const float TINT_INTENSITY = 0.2;
+
+const half3 TINT = half3(0, 0, 0.12);
+const half2 RADAR_POS = half2(.2,-2);
+const half2 RADAR_SCALE = half2(.8,3);
+
+uniform shader iChunk;
+uniform float2 iChunkSize;
+
+
+half4 main(float2 xy)
+{
+	// Sample base color
+	half4 color = iChunk.eval(xy);
+	
+	// Signed distance to screen edges (-1 to +1)
+	half2 edge = xy/iChunkSize*2-1;
+
+	// Raised to the fourth power
+	edge *= edge; edge *= edge;
+	
+	// Vignette gradient
+	half vig = exp((length(edge)-1)*4) * VIGNETTE_INTENSITY;
+    
+	// Blend vignette and radar
+	color.rgb += (TINT - color.rgb * color.rgb * 0.6) * (vig + TINT_INTENSITY);
+
+	return color;
+}
