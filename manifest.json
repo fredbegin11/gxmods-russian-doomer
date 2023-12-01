@@ -35,7 +35,7 @@
       },
       "shaders": {
         "Broken CRT TV": { "path": "shader/broken_crt.txt" },
-        "Vignette": { "path": "shader/vignette.txt" }
+        "Depression": { "path": "shader/depression.txt" }
       },
       "theme": {
         "dark": {
